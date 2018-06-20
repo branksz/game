@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var Block = (function () {
     function Block(player) {
         this.blockElemArray = [];
@@ -69,6 +79,37 @@ var Game = (function () {
     return Game;
 }());
 window.addEventListener("load", function () { return new Game(); });
+var Highscore = (function () {
+    function Highscore() {
+        this._highScoreList = this.getCookie('highscore');
+        if (this._highScoreList === null) {
+            this.setCookie('highscore', [1203, 1234, 1238], 300);
+        }
+        this._highScoreList = this.getCookie('highscore').split(',');
+    }
+    Highscore.prototype.setCookie = function (name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    };
+    Highscore.prototype.getCookie = function (name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    };
+    return Highscore;
+}());
 var Player = (function () {
     function Player() {
         var _this = this;
@@ -134,7 +175,19 @@ var Player = (function () {
             var endScore = document.createElement('endscore');
             document.body.appendChild(endScore);
             endScore.innerHTML = "Score: " + this.score.getScore;
-            document.body;
+            var allHighscores = this.score.highScoreList;
+            allHighscores.push(this.score.getScore);
+            allHighscores.sort(function (a, b) { return b - a; });
+            this.score.setCookie('highscore', allHighscores, 999);
+            var highscoreElem = document.createElement('highscore');
+            document.body.appendChild(highscoreElem);
+            highscoreElem.innerHTML = "<ul><li style='font-size:25px'>Top 10 Highscores</li></ul>";
+            var highscoreList = highscoreElem.getElementsByTagName('ul')[0];
+            for (var i = 0; i < (allHighscores.length > 10 ? 10 : allHighscores.length); i++) {
+                var tmpLi = document.createElement('li');
+                tmpLi.innerHTML = allHighscores[i];
+                highscoreList.appendChild(tmpLi);
+            }
             tmpRestart.addEventListener('click', function () {
                 location.reload();
             });
@@ -142,20 +195,22 @@ var Player = (function () {
     };
     return Player;
 }());
-var Score = (function () {
+var Score = (function (_super) {
+    __extends(Score, _super);
     function Score(player) {
-        var _this = this;
-        this.scoreCounter = 0;
-        this.update = function () {
+        var _this = _super.call(this) || this;
+        _this.scoreCounter = 0;
+        _this.update = function () {
             if (_this.player.isAlive === true) {
                 _this.scoreCounter++;
                 _this.scoreElem.innerHTML = "Score: " + _this.scoreCounter;
             }
         };
-        this.player = player;
-        this.scoreElem = document.createElement('score');
-        document.body.appendChild(this.scoreElem);
-        this.scoreElem.innerHTML = "Score: ";
+        _this.player = player;
+        _this.scoreElem = document.createElement('score');
+        document.body.appendChild(_this.scoreElem);
+        _this.scoreElem.innerHTML = "Score: ";
+        return _this;
     }
     Object.defineProperty(Score.prototype, "getScore", {
         get: function () {
@@ -164,6 +219,13 @@ var Score = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Score.prototype, "highScoreList", {
+        get: function () {
+            return this._highScoreList;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Score;
-}());
+}(Highscore));
 //# sourceMappingURL=main.js.map

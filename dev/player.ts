@@ -105,8 +105,30 @@ class Player {
 
 	        endScore.innerHTML = "Score: " + this.score.getScore
 
-	        // remove score
-	        document.body
+	        // ophalen highscores
+	        let allHighscores = this.score.highScoreList
+	        allHighscores.push(this.score.getScore)
+
+	        // sorteren van hoog naar laag
+	        allHighscores.sort(function(a:any, b:any){return b-a});
+
+	        // opslaan in cookie
+	        this.score.setCookie('highscore', allHighscores, 999)
+
+	        // aanmaken highscores element
+	        let highscoreElem = document.createElement('highscore')
+	        document.body.appendChild(highscoreElem)
+
+	        highscoreElem.innerHTML = "<ul><li style='font-size:25px'>Top 10 Highscores</li></ul>"
+
+	        let highscoreList = highscoreElem.getElementsByTagName('ul')[0]
+
+	        for (let i = 0; i < (allHighscores.length > 10 ? 10 : allHighscores.length); i++) {
+	        	let tmpLi = document.createElement('li')
+	        	tmpLi.innerHTML = allHighscores[i]
+
+	        	highscoreList.appendChild(tmpLi)
+	        }
 
 	        // eventlistener toevoegen
 	        tmpRestart.addEventListener('click', function(){

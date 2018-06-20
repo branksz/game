@@ -174,10 +174,37 @@ intro {
     top: 15%;
     font-size: 80px;
     font-weight: bold;
-    color: white;
-    text-shadow: 1px 2px 20px black;
-    border: 3px solid black;
+    color: crimson;
+    border: 3px solid crimson;
     padding: 30px 60px;
     border-radius: 7px;
     margin-left: -317px;
+}
+
+highscore {
+    z-index: 9999;
+    position: absolute;
+    right: 60px;
+    top: 60px;
+}
+
+highscore li {
+    padding: 10px;
+}
+
+highscore li:nth-child(even) {
+    background: grey;
+}
+
+highscore li:nth-child(odd) {
+    background: #adadad;
+}
+highscore li:first-child {
+    text-align: center
+}
+
+highscore ul {
+    z-index: 9999;
+    list-style-type: none;
+    width: 300px;
 }

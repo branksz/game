@@ -1,10 +1,11 @@
-class Score {
+class Score extends Highscore {
 
 	private scoreElem:HTMLElement
 	private scoreCounter:number = 0
 	private player:Player
 
 	constructor(player:Player) {
+		super()
 
 		this.player = player
 
@@ -25,5 +26,9 @@ class Score {
 
 	public get getScore():number {
 		return this.scoreCounter
+	}
+
+	public get highScoreList():any {
+		return this._highScoreList
 	}
 }
