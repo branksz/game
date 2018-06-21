@@ -232,7 +232,7 @@ class Highscore {
 
 
 # Peer reviews
-### PeerReview Sven Koene https://github.com/Sven-Koene/programmeren4
+### PeerReview van Jasper https://github.com/jaspervriends/CMTTHE04-Eindopdracht
 
 - [x] De code van het individuele project staat op GitHub.
 - [x] De game is online speelbaar.
@@ -244,21 +244,23 @@ class Highscore {
     - [x] Encapsulation
     - [x] Composition
     - [x] Inheritance
-- [x] De GitHub pagina bevat een ReadMe bestand. Dit bestand bevat:
-    - [x] Per bovengenoemd OOP principe een uitleg: waar is het toegepast, en waarom is het
+- [ ] De GitHub pagina bevat een ReadMe bestand. Dit bestand bevat:
+    - [ ] Per bovengenoemd OOP principe een uitleg: waar is het toegepast, en waarom is het
         op die plek toegepast. De uitleg is inclusief code voorbeelden.
-    - [x] Een klassendiagram van de game.
-    - [x] Een link naar de peer review die in week 6 is gedaan
+    - [ ] Een klassendiagram van de game.
+    - [ ] Een link naar de peer review die in week 6 is gedaan
 
 ### Extra opdrachten 
 
 - [x] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
 - [ ] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
 - [ ] De game werkt met Canvas in plaats van DOM elementen
-- [x] De game bevat local of online multiplayer.
+- [ ] De game bevat local of online multiplayer.
 - [ ] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
 - [ ] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
 - [ ] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
 
-## Mijn feedback
-Ik sta der versteld van hoe Sven zoiets prachtigs heeft kunnen creeën, omdat dit zijn eerste game is die hij zelf voluit heeft geprogrammeerd, ik Rate deze game een <b>10/10 IGN Rated</b>  
+## Feedback
+Jasper zijn game ziet er erg mooi uit, door de assets die hij heeft gebruikt ziet het er erg professioneel uit. 
+Hij moet alleen nog even werken aan de github readme en uitleg voor de rest is de game perfect. 
+Het feit dat er ook geluid in zit maakt het vele malen leuker
