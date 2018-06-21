@@ -21,10 +21,10 @@ Link naar de game:
 
 ### Extra opdrachten 
 
-- [x] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
-- [ ] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
+- [ ] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
+- [x] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
 - [ ] De game werkt met Canvas in plaats van DOM elementen
-- [x] De game bevat local of online multiplayer.
+- [ ] De game bevat local of online multiplayer.
 - [ ] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
 - [ ] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
 - [ ] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
@@ -32,24 +32,62 @@ Link naar de game:
 
 # Toelichting OOP principes
 ## Classes
-In mijn game maak ik gebruik van classes, Classes zijn eigenlijk de hoofdprinciepe van OOP (Object georienteerd Programmeren) omdat dit handig is om alle onderdelen geschrijden van elkaar te houden. Hierdoor crëeer je meer duidelijkheid. Dat kan je zien de DEV map in mijn repository eigenlijk alle onderdelen hier bevatten classes. Hier een klein voorbeeld:
+Mijn gehele game bestaat uiteraard uit classes. Dit kan je zien in de DEV map, elk bestand is een aparte class. Hieronder de code van mijn Game.ts class:
 ```
-class GameOver {
-    private textfield: HTMLElement
+class Game {
 
-    private game:Game
+    private player:Player
+    private block:Block
+    private startButton:HTMLElement
+    private introButton:HTMLElement
 
-    constructor(g:Game) {
-        this.game = g
-        this.textfield = document.createElement("textfield")
-        document.body.appendChild(this.textfield)
-        // this.textfield.addEventListener("click", ()=> this.switchScreens())
-        
+    constructor(){
+
+        // Start game buttons neerzetten
+        this.startButton = document.createElement('startgame')
+        document.body.appendChild(this.startButton)
+
+        this.startButton.innerHTML = "Start Game"
+
+        this.introButton = document.createElement('intro')
+        document.body.appendChild(this.introButton)
+
+        this.introButton.innerHTML = "Crazy Portal Flap"
+
+        this.startButton.addEventListener('click', this.startGame)
+        // start game als je op de button klikt
     }
-    public update() { 
-        this.textfield.innerHTML =  " GAME OVER, MAN!"
+
+    public update() {
+
+        this.player.update()
+        this.block.update()
+
+        requestAnimationFrame( () => this.update() )
     }
+
+    private startGame=()=> {
+
+        this.startButton.remove()
+        this.introButton.remove()
+
+        this.player = new Player()
+
+        this.block = new Block(this.player) // enemy block
+
+        // 2 portals aanmaken
+        document.body.appendChild(document.createElement('portal'))
+        document.body.appendChild(document.createElement('portal2'))
+
+        // spikes aanmaken
+        document.body.appendChild(document.createElement('spikes'))
+
+        this.update() // update de game
+    }
+
 }
+
+window.addEventListener("load", () => new Game())
 ```
 
 ## Encapsulation
