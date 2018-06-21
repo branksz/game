@@ -91,9 +91,11 @@ class Game {
 window.addEventListener("load", () => new Game())
 ```
 
-## Encapsulation
+## Encapsulation & Composition
 Hiermee beveilig je methods en variabelen, je zorgt er dan voor dat andere stukken code er niet bij kunnen. Ik werk eigenlijk volgens het principe dat ik al mijn
-variabele private maak, tenzij het echt public moet zijn of tenzij de variabele door een extend class benaderd moet worden. In dat geval gebruik ik protected.<br>
+variabele private maak, tenzij het echt public moet zijn of tenzij de variabele door een extend class benaderd moet worden. In dat geval gebruik ik protected.<br><br>
+
+In deze code maak ik ook gebruik van composition. Ik wil dat de score in de player wordt aangemaakt, want de score hoort bij de player.<br><br>
 Hieronder een stukje voorbeeldcode uit mijn Player.ts class
 ```
 class Player {
@@ -156,35 +158,6 @@ class Player {
 			}			
 		}
 	}
-```
-## Composition
-
-Composition gebruik je om classes aan elkaar te koppelen denk hierbij dat de Game een gamescreen heeft en de gamescreen heeft dan de player is en de enemy's.<br/>
-Hier een voorbeeld:
-```
-class GameScreen{
-
-    private player:Player1
-    private cars:Car[]
-    // private foreground:HTMLElement
-    private game:Game
-    private hitByCar:number = 0
-    private score:number = 0
-    private textfield:HTMLElement
-
-    
-
-    constructor(g:Game){
-
-        this.game = g
-
-        this.textfield = document.createElement("textfield")
-        document.body.appendChild(this.textfield)
-
-        this.player = new Player1()
-        this.cars = [new Blue(), new Yellow(), new Yellow(), new Red(), new Red(), new Red()]
-
-    }
 ```
 ## Inheritance
 
