@@ -3,10 +3,11 @@ Link naar de game:
 - https://branksz.github.io
 
 # Tutorial & Game uitleg
-Voordat je de game gaat spelen moet ik een paar punten opnoemen, want anders is het waarschijnlijk te moeilijk om te snappen:<br><br>
+Voordat je de game gaat spelen moet ik een paar punten opnoemen, want anders is het waarschijnlijk te moeilijk om te snappen:<br>
 - Om omhoog te gaan moet je de spatiebalk ingedrukt houden en los laten. Dus niet de hele tijd op de spatiebalk drukken maar ingedrukt houden en als je op 
 de ideale hoogte bent los laten. Je kan het vergelijke met een koppeling van een auto, hierbij moet je ook die 'sweet spot' vinden.
 - Je gaat sneller omhoog dan omlaag, dit heb ik express gemaakt om het net iets moeilijker te maken.
+- De balken die op je af komen worden elke 500 punten steeds breder, de maximum breedte is bereikt wanneer de balken 150px breed zijn
 - Er zijn twee portals, als je bij de onderste portal bent ga je dood. Door het bovenste portal kan je teleporteren naar benenden, maar van de onderste portal niet naar boven!
 - Bovenaan bij het blauwe portal is de veiligste plek
 - Ik ben benieuwd naar je highscore ;-)
