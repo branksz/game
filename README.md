@@ -161,59 +161,81 @@ class Player {
 ```
 ## Inheritance
 
-In een game wordt inheritance gebruikt wanneer er meerder objecten veel van dezelfde code gebruikt. In mijn game heb ik dit gebruikt voor de verschillende auto's. Er wordt een class gemaakt waar alle code instaat dit noem je meestal het 'gameobject' hier staat alle code in wat voor elke class het zelfde is. Het is zo geschreven dat alle eigenschappen veranderd kunnen worden. Daarna kan je meerdere classes aanmaken die individuele eigenschappen hebben. Hierin komen alle andere de eigenschappen in te staan. Dit ziet er als volgt uit: 
+In mijn game heb ik een aparte Highscore.ts en Score.ts. De Score class extend de highscore class. Dit heb ik gedaan omdat het gehele resultaat van de score.ts 
+uiteindelijk opgeslagen en verwerkt gaat worden in highscore.ts. In de Score class wil ik ook toegang hebben tot de \_highScoreList variable daarom 
+is die ook protected gemaakt.<br><br>
+Hieronder stukjes code van Score.ts en Highscore.ts
 ```
-class GameObject{
+class Score extends Highscore {
 
-    protected car: HTMLElement
-    private x:number 
-    private y:number
-    protected speed:number = 0
+	private scoreElem:HTMLElement
+	private scoreCounter:number = 0
+	private player:Player
 
-    
-    
-    constructor(tag:string){ 
+	constructor(player:Player) {
+		super()
 
-        this.car = document.createElement(tag)
-        let game = document.getElementsByTagName("game")[0]
-        game.appendChild(this.car)
+		this.player = player
 
-        this.x = Math.random() * (window.innerWidth - 200)
-        this.y = -400 - (Math.random() * 450)  
+		this.scoreElem = document.createElement('score')
+		document.body.appendChild(this.scoreElem)
 
-        }
+		this.scoreElem.innerHTML = "Score: "
+	}
 
-        public update(): void{
-            this.y += this.speed
-            this.car.style.transform = `translate(${this.x}px, ${this.y}px)`
+	public update=()=> {
 
-            if (this.y + this.car.clientHeight > window.innerHeight){
-                this.reset()
-            }
-        }
+		// alleen uitvoeren als die niet dood is
+		if (this.player.isAlive === true) {
+			this.scoreCounter ++
+			this.scoreElem.innerHTML = "Score: " + this.scoreCounter
+		}
+	}
 
-        public getRectangle() {
-            return this.car.getBoundingClientRect()
-        }
+	public get getScore():number {
+		return this.scoreCounter
+	}
 
-        public reset(){
-            this.x =  Math.random() * (window.innerWidth - 200)
-            this.y = -400 - (Math.random() * 450) 
-        }
-
+	public get highScoreList():any {
+		return this._highScoreList
+	}
 }
-```
-```
-/// <reference path="../gameobject.ts" />
 
-class Red extends GameObject{
+class Highscore {
 
-    constructor(){ 
-    super("carRed")     
-        
-    this.speed = 15
-    }
+	protected _highScoreList:any;
 
+	constructor() {
+
+		this._highScoreList = this.getCookie('highscore')
+
+		if (this._highScoreList === null) {
+			this.setCookie('highscore', [1203,1234,1238], 300)
+		}
+
+		this._highScoreList = this.getCookie('highscore').split(',')
+	}
+
+	setCookie(name:string, value:Array<number>, days:number) {
+	    var expires = "";
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime() + (days*24*60*60*1000));
+	        expires = "; expires=" + date.toUTCString();
+	    }
+	    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+	}
+
+	protected getCookie(name:string):any {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0;i < ca.length;i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	    }
+	    return null;
+	}
 }
 ```
 
