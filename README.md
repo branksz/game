@@ -30,9 +30,10 @@ Link naar de game:
 - [ ] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
 
 
-# Toelichting OOP principes
+# Toelichting OOP
 ## Classes
-Mijn gehele game bestaat uiteraard uit classes. Dit kan je zien in de DEV map, elk bestand is een aparte class. Hieronder de code van mijn Game.ts class:
+Mijn gehele game bestaat uiteraard uit classes. Dit kan je zien in de DEV map, elk bestand is een aparte class. <br />
+Hieronder de code van mijn Game.ts class:
 ```
 class Game {
 
@@ -91,51 +92,70 @@ window.addEventListener("load", () => new Game())
 ```
 
 ## Encapsulation
-Encapsulation gebruik je wanneer je iets wil wilt beschremen, want niet alle bestanden hoeven te weten wat de snelheid is van de player. Hiervoor gebruik je dus Encapsulation voor, er zijn verschillende manieren om daarvoor te zorgen de mogelijkheden zijn: 'public', 'private' en 'protected'. <br/>
-Hier een voorbeeld: <br/>
-- Ik maak hier gebruik van protected om de speed en de car door te geven aan een andere class zodat de andere classes deze kunnen her gebruiken.
-- Private gebruik ik hier om de x en y as te bepalen voor de gameObjecten deze is niet protected omdat ik deze niet vaker hoef aan te passen omdat ze hetzelfde zijn.
-- Public gebruik ik hier om de functie getRectagle() te gebruiken in een ander bestand het enige probleem is dat alle andere bestander er ook gebruik van kunnen maken dus het is minder veilig.
+Hiermee beveilig je methods en variabelen, je zorgt er dan voor dat andere stukken code er niet bij kunnen. Ik werk eigenlijk volgens het principe dat ik al mijn
+variabele private maak, tenzij het echt public moet zijn of tenzij de variabele door een extend class benaderd moet worden. In dat geval gebruik ik protected.<br>
+Hieronder een stukje voorbeeldcode uit mijn Player.ts class
 ```
-class GameObject{
+class Player {
 
-    protected car: HTMLElement
-    private x:number 
-    private y:number
-    protected speed:number = 0
+	private playerElem:HTMLElement
+	private jumpSpeed:number = 60
+	private isFalling:boolean = false
+	private isDead:boolean = false
+	public score:Score
 
-    
-    
-    constructor(tag:string){ 
+	constructor() {
 
-        this.car = document.createElement(tag)
-        let game = document.getElementsByTagName("game")[0]
-        game.appendChild(this.car)
+		this.playerElem = document.createElement('player') // player aanmaken
+        document.body.appendChild(this.playerElem)
 
-        this.x = Math.random() * (window.innerWidth - 200)
-        this.y = -400 - (Math.random() * 450)  
+        this.score = new Score(this)
 
-        }
+        // eventlistener op spatie zetten
+        document.body.addEventListener('keypress', this.checkSpacePress)
+        document.body.addEventListener('keyup', this.fallDown)
+	}
 
-        public update(): void{
-            this.y += this.speed
-            this.car.style.transform = `translate(${this.x}px, ${this.y}px)`
+	public update() {
 
-            if (this.y + this.car.clientHeight > window.innerHeight){
-                this.reset()
-            }
-        }
+		this.score.update() // score updaten
 
-        public getRectangle() {
-            return this.car.getBoundingClientRect()
-        }
+		// alleen uitvoeren als die niet dood is
+		if (this.isDead === false) {
+			/* Als je de knop hebt los gelaten is this.isFalling true, 
+			 dan moet je blijven vallen totdat je beneden bent */
+			if (this.isFalling) {
+				this.jumpSpeed = this.jumpSpeed - 5
+				this.playerElem.style.bottom = this.jumpSpeed + 'px'
 
-        public reset(){
-            this.x =  Math.random() * (window.innerWidth - 200)
-            this.y = -400 - (Math.random() * 450) 
-        }
+				if (this.jumpSpeed <= 40) {
+					this.isFalling = false
+					
+					this.die() // player is dood
+				}
+			}
+		}
+	}
 
-}
+	public checkSpacePress=(e:any)=> {
+
+		// alleen uitvoeren als die niet dood is
+		if (this.isDead === false) {
+			// niet naar beneden vallen
+			this.isFalling = false
+
+			if (e.keyCode == 32) {
+				// Spacebar is gedrukt
+				this.jumpSpeed = this.jumpSpeed + 15
+				this.playerElem.style.bottom = this.jumpSpeed + 'px'
+
+				// mag niet boven scherm uitkomen
+				if (this.jumpSpeed >= window.innerHeight) {
+					this.jumpSpeed = 60
+				}
+			}			
+		}
+	}
 ```
 ## Composition
 
